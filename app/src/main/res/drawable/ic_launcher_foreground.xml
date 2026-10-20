@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Subtle Chip Base Outline -->
+    <path
+        android:strokeColor="#1E2633"
+        android:strokeWidth="1.5"
+        android:fillColor="#141922"
+        android:pathData="M34,34 h40 a4,4 0 0 1 4,4 v32 a4,4 0 0 1 -4,4 h-40 a4,4 0 0 1 -4,-4 v-32 a4,4 0 0 1 4,-4 z" />
+
+    <!-- Chip Connector Pins (Top, Bottom, Left, Right) -->
+    <!-- Top Pins -->
+    <path
+        android:strokeColor="#2A3547"
+        android:strokeWidth="1.5"
+        android:pathData="M42,34 v-6 M54,34 v-6 M66,34 v-6" />
+    <!-- Bottom Pins -->
+    <path
+        android:strokeColor="#2A3547"
+        android:strokeWidth="1.5"
+        android:pathData="M42,74 v6 M54,74 v6 M66,74 v6" />
+    <!-- Left Pins -->
+    <path
+        android:strokeColor="#2A3547"
+        android:strokeWidth="1.5"
+        android:pathData="M30,44 h-6 M30,54 h-6 M30,64 h-6" />
+    <!-- Right Pins -->
+    <path
+        android:strokeColor="#2A3547"
+        android:strokeWidth="1.5"
+        android:pathData="M78,44 h6 M78,54 h6 M78,64 h6" />
+
+    <!-- Geometric W-Symbol in Champagne Gold -->
+    <!-- Left diagonal down: (38,42) -> (45,66) -->
+    <!-- Middle diagonal up: (45,66) -> (54,49) -->
+    <!-- Middle diagonal down: (54,49) -> (63,66) -->
+    <!-- Right diagonal up: (63,66) -> (70,42) -->
+    <path
+        android:strokeColor="#D6B46A"
+        android:strokeWidth="4"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M38,42 L46,65 L54,51 L62,65 L70,42" />
+
+    <!-- Electric Blue Intelligence Node / Pulse Center -->
+    <path
+        android:fillColor="#4DA3FF"
+        android:pathData="M54,40 a3,3 0 1,0 0.01,0 z" />
+
+    <!-- Corner Gold Micro-Nodes -->
+    <path
+        android:fillColor="#D6B46A"
+        android:pathData="M38,42 a2,2 0 1,0 0.01,0 z M70,42 a2,2 0 1,0 0.01,0 z" />
+
+    <!-- Lower Diagnostic Pulse Nodes in Electric Blue -->
+    <path
+        android:fillColor="#4DA3FF"
+        android:pathData="M46,65 a2,2 0 1,0 0.01,0 z M62,65 a2,2 0 1,0 0.01,0 z" />
+
+</vector>

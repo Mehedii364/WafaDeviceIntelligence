@@ -1,0 +1,6 @@
+{
+  "name": "Wafa Device Intelligence",
+  "description": "Advanced Android Hardware Diagnostics and Battery Intelligence platform with integrated Wafa ChargeLab by Mehedi364.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,124 @@
+name: Android CI - Build Debug APK
+
+on:
+  push:
+    branches: [ "main", "master" ]
+    paths-ignore:
+      - 'APK_DOWNLOAD/**'
+      - '.build-outputs/**'
+      - 'README.md'
+  pull_request:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Grant execute permission for Gradle wrapper
+        run: |
+          if [ -f "gradlew" ]; then
+            chmod +x gradlew
+          fi
+
+      - name: Run Unit & JVM Tests
+        run: |
+          if [ -f "./gradlew" ]; then
+            ./gradlew :app:testDebugUnitTest --no-daemon --stacktrace
+          else
+            gradle :app:testDebugUnitTest --no-daemon --stacktrace
+          fi
+
+      - name: Build Debug APK
+        run: |
+          if [ -f "./gradlew" ]; then
+            ./gradlew assembleDebug --no-daemon --stacktrace
+          else
+            gradle assembleDebug --no-daemon --stacktrace
+          fi
+
+      - name: Locate, Validate and Stage APK
+        run: |
+          set -e
+          echo "=== Locating Built APK ==="
+          APK_FOUND=$(find app/build/outputs/apk/debug -name "*.apk" -type f | head -n 1)
+          if [ -z "$APK_FOUND" ]; then
+            echo "ERROR: No debug APK found in app/build/outputs/apk/debug"
+            exit 1
+          fi
+          echo "Found APK: $APK_FOUND"
+
+          echo "=== Validating APK Structure ==="
+          file "$APK_FOUND"
+          ls -lh "$APK_FOUND"
+          APK_SIZE=$(stat -c%s "$APK_FOUND")
+          if [ "$APK_SIZE" -le 10000 ]; then
+            echo "ERROR: Generated APK is suspiciously small ($APK_SIZE bytes)!"
+            exit 1
+          fi
+
+          echo "=== Verifying APK ZIP integrity ==="
+          unzip -t "$APK_FOUND" | grep -E "(AndroidManifest.xml|classes.dex)" || {
+            echo "ERROR: APK does not contain valid AndroidManifest.xml or classes.dex!"
+            exit 1
+          }
+
+          echo "=== Staging APK to Output Directories ==="
+          mkdir -p .build-outputs
+          mkdir -p APK_DOWNLOAD
+
+          cp "$APK_FOUND" .build-outputs/app-debug.apk
+          cp "$APK_FOUND" APK_DOWNLOAD/app-debug.apk
+
+          echo "=== Calculating SHA256 Checksums ==="
+          HASH1=$(sha256sum .build-outputs/app-debug.apk | awk '{print $1}')
+          HASH2=$(sha256sum APK_DOWNLOAD/app-debug.apk | awk '{print $1}')
+          echo "SHA256 (.build-outputs/app-debug.apk): $HASH1"
+          echo "SHA256 (APK_DOWNLOAD/app-debug.apk):   $HASH2"
+
+          if [ "$HASH1" != "$HASH2" ]; then
+            echo "ERROR: Checksum mismatch between copied APKs!"
+            exit 1
+          fi
+
+          echo "APK build and validation successful!"
+
+      - name: Upload Debug APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug-apk
+          path: APK_DOWNLOAD/app-debug.apk
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Commit and Push APK to Repository (Code Browser Download)
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f .build-outputs/app-debug.apk APK_DOWNLOAD/app-debug.apk
+          if git diff --staged --quiet; then
+            echo "No changes in APK binary."
+          else
+            git commit -m "build: update verified debug APK binary [skip ci]"
+            git push origin ${{ github.ref_name }}
+          fi

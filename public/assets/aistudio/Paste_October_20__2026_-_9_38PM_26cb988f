@@ -1,0 +1,768 @@
+# MASTER PROMPT: WAFA DEVICE INTELLIGENCE & CHARGELAB
+## Production-Ready Native Android Application
+
+**Developer:** Mehedi364 (Md. Mehedi Hasan)  
+**Brand:** Wafa Zone  
+**Application:** Wafa Device Intelligence  
+**Integrated Module:** Wafa ChargeLab  
+**Package Name:** `site.wafazone.deviceintelligence`  
+**Platform:** Native Android APK  
+**Primary Language:** Kotlin  
+**UI Framework:** Jetpack Compose + Material 3  
+**Database:** Room  
+**Build Pipeline:** GitHub Actions  
+**Design:** Premium Obsidian, Graphite, Gold and Electric Blue
+
+---
+
+## 1. YOUR ROLE
+
+Act as a senior Android engineer, mobile systems programmer, hardware diagnostics specialist, UI/UX designer, QA engineer and Android release engineer.
+
+Your task is to design, implement, test and prepare a complete, production-oriented Android application called **Wafa Device Intelligence**, developed by Mehedi364 under Wafa Zone.
+
+Integrate Wafa ChargeLab as a first-class battery and charging diagnostics module within the same application.
+
+Do not create two separate APKs. Deliver one cohesive Android application with shared infrastructure and clearly separated modules.
+
+This is an implementation task, not merely a UI design exercise or project proposal.
+
+You must create actual source files, configure the Android project, implement the requested features, run available checks, fix build errors and provide a reproducible APK build workflow.
+
+Do not claim that a feature works unless its implementation and behavior have been verified.
+
+## 2. PRIMARY OBJECTIVE
+
+Build an Android device intelligence platform that reports real information available through supported Android APIs.
+
+The application must investigate:
+
+- Hardware and device capabilities
+- CPU architecture and processor information
+- RAM and application memory usage
+- Storage availability and accessible volumes
+- Display and graphics capabilities
+- Camera hardware characteristics
+- Battery condition indicators and charging behavior
+- Charging sessions and battery temperature
+- Physical and virtual sensors
+- Network connectivity and diagnostics
+- Thermal status and available temperature measurements
+- Application performance and supported benchmarks
+- Diagnostic history and exportable reports
+
+Every measurement must have a genuine source.
+
+When Android does not expose a requested value, report it as unavailable or unsupported. Never generate plausible-looking placeholder readings.
+
+## 3. APPLICATION ARCHITECTURE
+
+Use a maintainable, modular Android architecture.
+
+Recommended structure:
+
+- `app`: Application entry point, navigation and dependency setup
+- `core/common`: Shared utilities, formatting and result types
+- `core/database`: Room entities, DAOs and migrations
+- `core/design`: Reusable UI components and theme
+- `core/diagnostics`: Capability detection and diagnostic result models
+- `feature/dashboard`: Device overview
+- `feature/hardware`: System and hardware information
+- `feature/sensors`: Sensor discovery and testing
+- `feature/chargeLab`: Battery and charging analytics
+- `feature/storage`: Storage analysis
+- `feature/network`: Network diagnostics
+- `feature/thermal`: Thermal status and temperature
+- `feature/performance`: Performance tests
+- `feature/history`: Historical sessions
+- `feature/reports`: PDF, CSV and JSON export
+- `feature/settings`: Preferences, privacy and notifications
+
+Use Kotlin, Jetpack Compose, Material 3, Coroutines, Flow, lifecycle-aware collection, Room and appropriate Android platform APIs.
+
+Use a single application ID:
+
+`site.wafazone.deviceintelligence`
+
+Choose a suitable minimum SDK after checking the APIs required by the implementation. Configure and test against a current Android SDK.
+
+Avoid unnecessary dependencies. Use stable, compatible library versions and commit the Gradle wrapper and required build configuration.
+
+## 4. PREMIUM USER INTERFACE
+
+Create a distinctive, polished native Android interface.
+
+### Design system
+
+- Primary background: Obsidian black
+- Secondary surfaces: Graphite
+- Primary accent: Warm gold
+- Secondary accent: Electric blue
+- Supporting colors: Muted violet and neutral grey
+- Typography: Clear, modern and readable
+- Icons: Consistent vector icons, not emoji
+- Components: Rounded diagnostic cards, compact metric tiles and clear status indicators
+- Motion: Subtle transitions, animated progress and smooth chart updates
+
+Support dark and light themes, dynamic display sizes, accessibility settings and appropriate contrast.
+
+### Navigation
+
+Create these main destinations:
+
+1. Overview
+2. Device
+3. Sensors
+4. ChargeLab
+5. Network
+6. Storage
+7. Thermal
+8. Performance
+9. History
+10. Reports
+11. Settings
+
+Use a premium navigation drawer or adaptive navigation rail where appropriate. Ensure all destinations remain usable on smaller phones.
+
+### Dashboard
+
+Display real, available information:
+
+- Device manufacturer and model
+- Android version and API level
+- CPU architecture and core count
+- Total and available RAM
+- Total and available app-accessible storage
+- Battery percentage and charging state
+- Battery temperature when exposed
+- Number of discovered sensors
+- Current connectivity status
+- Android thermal status when supported
+- Latest diagnostic session
+
+Add a prominent **Run Device Diagnostics** action.
+
+Show loading, success, partial-result, unsupported and error states. Do not populate the dashboard with invented values while information is loading.
+
+## 5. HARDWARE INTELLIGENCE
+
+Implement a dedicated hardware inspection module.
+
+Collect the following when available:
+
+### Device and operating system
+
+- Manufacturer
+- Brand
+- Model
+- Device identifier exposed to ordinary applications
+- Android release
+- SDK/API level
+- Security patch date
+- Supported ABIs
+- Build fingerprint only when useful and appropriate
+- Available system feature declarations
+
+Do not collect IMEI, serial numbers or other restricted identifiers without a legitimate, supported and consent-based use case. Never attempt to bypass Android restrictions.
+
+### CPU and memory
+
+- Supported CPU architecture
+- Available processor core information
+- CPU frequency ranges where legitimately readable
+- Total RAM and available RAM
+- App process memory usage
+- Runtime memory limits where exposed
+
+Do not claim unrestricted access to system-wide process information or real-time CPU utilization.
+
+### Display and graphics
+
+- Display resolution
+- Density and scaling
+- Refresh-rate capabilities
+- Current display mode where available
+- Supported graphics APIs and capabilities
+- OpenGL ES version when available
+
+Report capability information accurately. Do not claim to identify a specific GPU model if the platform does not expose it reliably.
+
+### Camera capabilities
+
+Use CameraManager and CameraCharacteristics to inspect accessible camera IDs and supported characteristics.
+
+Report available:
+
+- Camera facing
+- Supported output sizes
+- Flash availability
+- Supported focus modes
+- Exposure capabilities
+- Zoom ratio ranges
+- Available image formats
+
+Respect device restrictions and camera permissions. Do not open the camera automatically during an information scan.
+
+## 6. SENSOR LABORATORY
+
+Use Android SensorManager to enumerate and inspect available sensors.
+
+Support applicable sensors such as:
+
+- Accelerometer
+- Gyroscope
+- Magnetic field sensor
+- Rotation vector
+- Game rotation vector
+- Proximity
+- Ambient light
+- Pressure/barometer
+- Gravity sensor
+- Linear acceleration
+- Step detector and step counter, where supported
+- Significant motion and other available sensors
+
+For each sensor, show:
+
+- Name and type
+- Vendor
+- Version
+- Resolution
+- Maximum range
+- Power information reported by Android
+- Minimum reporting delay
+- Wake-up status when available
+- Physical or virtual classification when it can be established
+
+Provide live readings and suitable visualizations.
+
+Include functional tests for:
+
+- Accelerometer movement
+- Gyroscope rotation
+- Compass orientation
+- Proximity response
+- Ambient light response
+- Pressure readings
+- Step sensor availability
+
+Handle missing sensors gracefully. Register listeners only while required, use appropriate sampling rates and unregister them when testing ends or the relevant lifecycle stops.
+
+Do not assume a compass heading is accurate without sensor calibration and environmental limitations.
+
+## 7. WAFA CHARGELAB
+
+Build ChargeLab as a complete battery and charging analytics subsystem.
+
+### Live battery monitoring
+
+Use supported Android battery broadcasts and BatteryManager APIs.
+
+Read the following where available:
+
+- Battery percentage
+- Charging, discharging, full or not-charging state
+- Plugged power source
+- Battery temperature
+- Battery voltage
+- Current or charge-counter readings, when accessible
+- Battery saver state
+- Relevant battery status information
+
+Use appropriate units and convert raw values only after verifying their documented units.
+
+Show unavailable values explicitly. Do not substitute zero for missing measurements.
+
+### Charging sessions
+
+Automatically detect charging-state transitions while the application is active or monitoring is legitimately running.
+
+Store:
+
+- Session identifier
+- Start and end timestamps
+- Initial and final battery percentages
+- Session duration
+- Recorded battery temperature samples
+- Available voltage and current samples
+- Charging-source changes
+- Charging interruptions
+- Sampling gaps
+- Session completion reason
+
+Persist session data in Room.
+
+Recover safely after process termination and distinguish a confirmed session end from an incomplete session.
+
+### Charging analytics
+
+Implement:
+
+- Battery percentage timeline
+- Percentage points gained per hour
+- Charging duration statistics
+- Session comparison
+- Minimum and maximum recorded temperature
+- Available voltage and current graphs
+- Historical charging summaries
+- Estimated time to a selected charge target
+
+Time-to-target estimates must use recent observations, account for charging variability and display an uncertainty indication. Do not promise an exact completion time.
+
+Do not calculate charging wattage unless reliable voltage and current measurements with appropriate units are available. If calculated, label the value as an estimate and explain the measurement limitations.
+
+### Battery health
+
+Show battery health indicators only when the device exposes trustworthy information.
+
+Do not invent:
+
+- Battery health percentages
+- Battery cycle counts
+- Original battery capacity
+- Actual remaining battery capacity
+- Battery replacement recommendations based solely on battery percentage
+
+If the operating system does not expose a value, explain the limitation.
+
+### Charging alerts
+
+Provide optional user-configured alerts for:
+
+- Selected battery percentage
+- Available temperature readings crossing a configurable threshold
+- Charging interruption
+- Unexpectedly long charging sessions, where sufficient evidence exists
+
+Use local notifications and request notification permission when required.
+
+Never automatically enable charging alerts without informing the user.
+
+## 8. NETWORK INTELLIGENCE
+
+Implement genuine connectivity diagnostics.
+
+Use ConnectivityManager, NetworkCapabilities and supported network APIs.
+
+Display:
+
+- Connected or disconnected status
+- Wi-Fi, cellular, Ethernet or other supported transport
+- Internet validation status
+- Metered-network status
+- VPN transport indication when available
+- Local IP information where accessible
+- DNS resolution results
+- Measured latency
+- Connection stability during a test
+
+### Network testing
+
+Implement:
+
+- DNS lookup test
+- HTTP connectivity test
+- Repeated latency measurements against a configured endpoint
+- Optional packet-loss test using a controlled endpoint that supports the necessary protocol
+- Download and upload throughput tests against a suitable, authorized test server
+
+Label the target endpoint, test duration and measurement conditions.
+
+Do not fabricate ping, speed, packet-loss or signal-strength results. Do not treat successful DNS resolution as proof of unrestricted internet access.
+
+Explain when Android permissions or location settings limit access to Wi-Fi details.
+
+Do not scan or attack third-party networks.
+
+## 9. STORAGE INTELLIGENCE
+
+Use StorageManager, StatFs and appropriate Android storage APIs.
+
+Display:
+
+- Internal storage capacity where available
+- Available and used space
+- Accessible storage volumes
+- App-specific storage usage
+- App-accessible cache and file sizes
+- Storage trends recorded over time
+
+Provide optional file analysis through the Storage Access Framework or other permitted access methods.
+
+Where the user grants access, support:
+
+- Large-file discovery
+- Duplicate detection based on content hashes
+- File type grouping
+- File size sorting
+- Exportable scan results
+
+Never claim access to the complete filesystem. Do not silently read, modify or delete personal files.
+
+Duplicate scanning should use bounded memory and avoid hashing extremely large files without appropriate user confirmation.
+
+## 10. THERMAL INTELLIGENCE
+
+Use PowerManager thermal status APIs where available and supported.
+
+Display:
+
+- Android thermal status
+- Battery temperature when available
+- Available thermal sensor readings
+- Thermal status history
+- Temperature trends
+- Performance-test correlation with thermal changes
+
+Subscribe to thermal status callbacks where supported.
+
+Do not claim to read CPU or GPU temperatures unless a supported source actually provides those measurements.
+
+Provide configurable informational warnings. Avoid excessive sampling and battery-intensive monitoring.
+
+## 11. PERFORMANCE DIAGNOSTICS
+
+Implement transparent, repeatable performance tests.
+
+Include:
+
+- CPU information and supported frequency ranges
+- App process memory usage
+- Runtime memory limits
+- Short CPU microbenchmark
+- Bounded memory-allocation and memory-access test
+- App-owned rendering performance measurement
+- Optional sustained workload test with a clear duration limit
+- Before-and-after comparison
+- Thermal-state observations during a test
+
+For every benchmark, record:
+
+- Test version
+- Start and end timestamps
+- Device and Android version
+- Duration
+- Relevant thermal status
+- Test conditions
+- Actual results
+- Errors or incomplete measurements
+
+Avoid comparing results as if they were standardized industry benchmarks unless the test methodology supports that claim.
+
+Do not run heavy tests continuously or without user initiation. Provide a stop button and reasonable limits.
+
+## 12. DIAGNOSTIC ENGINE
+
+Create a shared diagnostic result model.
+
+Each diagnostic must include:
+
+- Stable test identifier
+- Test name
+- Status
+- Measurement source
+- Timestamp
+- Result data
+- Units where applicable
+- Permission requirements
+- Error or limitation explanation
+- Duration where applicable
+
+Supported statuses:
+
+- AVAILABLE
+- LIMITED
+- UNSUPPORTED
+- PERMISSION_REQUIRED
+- NOT_TESTED
+- RUNNING
+- PASSED
+- WARNING
+- FAILED
+- INTERRUPTED
+
+Do not mark a test PASSED merely because its screen loaded.
+
+A test should pass only when its actual acceptance criteria have been met.
+
+Build a capability matrix that detects missing hardware, unsupported Android APIs, restricted readings and unavailable permissions.
+
+## 13. DATABASE AND HISTORY
+
+Use Room with versioned schema and tested migrations.
+
+Create appropriate entities for:
+
+- Diagnostic sessions
+- Individual test results
+- Sensor test sessions
+- Charging sessions
+- Battery measurement samples
+- Network test results
+- Performance benchmarks
+- User preferences
+
+Use efficient indexing and bounded retention for high-frequency measurements.
+
+Provide configurable data retention, a clear history-deletion action and safe export functionality.
+
+All essential diagnostics must work without a remote server, user account, Firebase or paid API.
+
+## 14. REPORTING
+
+Implement real report generation.
+
+### PDF
+
+Generate a readable diagnostic report containing:
+
+- Application name and developer attribution
+- Device and operating system information
+- Test timestamps
+- Hardware and sensor inventory
+- Battery and charging summaries
+- Network, storage and thermal results
+- Performance test results
+- Unsupported features and permission limitations
+- Measurement units and source descriptions
+
+### CSV and JSON
+
+Export structured results with consistent field names, timestamps, units and status values.
+
+Allow users to select which sections to export.
+
+Use Android's file picker or share mechanisms. Do not upload reports without explicit user consent.
+
+## 15. BACKGROUND MONITORING
+
+Background monitoring must be optional.
+
+Implement a foreground service only for user-requested ongoing monitoring that meets Android requirements.
+
+Provide:
+
+- Clear start and stop controls
+- A visible notification during foreground monitoring
+- Notification actions when supported
+- Battery-conscious sampling intervals
+- Correct lifecycle and service behavior
+- Permission handling
+- Recovery from interruption
+- Recording of monitoring gaps
+
+Use WorkManager for suitable deferrable tasks, not for guaranteed continuous, real-time sampling.
+
+Respect current Android foreground-service restrictions, background execution rules and battery optimization behavior.
+
+Do not claim that monitoring continues uninterrupted after force-stop, reboot, permission revocation or manufacturer restrictions.
+
+Do not automatically start camera, microphone, location or other sensitive functionality.
+
+## 16. PRIVACY AND SECURITY
+
+- Work offline by default.
+- Do not require account registration.
+- Do not collect unnecessary personal identifiers.
+- Request permissions only when a selected feature requires them.
+- Explain each sensitive permission before requesting it.
+- Store diagnostic history locally.
+- Validate imported and exported data.
+- Avoid logging sensitive information.
+- Do not expose private files or diagnostic records through public endpoints.
+- Provide clear privacy and data-deletion controls.
+
+## 17. SETTINGS
+
+Include settings for:
+
+- Theme
+- Dynamic colors where supported
+- Language
+- Sampling intervals
+- Charging alerts
+- Temperature thresholds
+- Monitoring behavior
+- Data retention
+- Chart preferences
+- Export format
+- Privacy controls
+- Diagnostic history deletion
+- Application version
+- Open-source licenses
+- Developer information
+
+Support English initially and organize the project so Bengali localization can be added cleanly.
+
+## 18. BRANDING
+
+Display:
+
+**Wafa Device Intelligence**
+
+*Advanced Android Diagnostics*
+
+**Integrated module:** Wafa ChargeLab
+
+**Developed by Mehedi364**
+
+**Wafa Zone**
+
+Use a custom, polished launcher icon and appropriate adaptive icon assets.
+
+Do not add fake company details, fake certifications, invented ratings or unsupported claims about hardware access.
+
+## 19. TESTING REQUIREMENTS
+
+Create unit tests and Android instrumented tests for critical logic.
+
+Test:
+
+- Battery state parsing
+- Battery percentage and unit conversion
+- Charging-session state transitions
+- Missing measurement handling
+- Session persistence
+- Interrupted session recovery
+- Charging rate calculations
+- Time-to-target estimation
+- Sensor discovery
+- Unsupported hardware behavior
+- Network timeout handling
+- Permission denial
+- Database migrations
+- Report export
+- Data retention
+- Diagnostic status transitions
+
+Include emulator testing where possible and real-device testing instructions.
+
+A build passing compilation does not prove that all hardware diagnostics work on every device.
+
+## 20. GOOGLE AI STUDIO WORKFLOW
+
+Use Google AI Studio Build Mode to create the actual project files and implementation.
+
+Important requirements:
+
+- Do not generate only a React website.
+- Do not substitute a WebView for the native Android app.
+- Do not assume Google AI Studio can directly run every Android SDK or Gradle task in its environment.
+- If native Android build execution is unavailable, prepare the complete Android Studio project and use GitHub Actions to perform the build.
+- Do not claim the APK was built or tested until the relevant build or test actually succeeds.
+
+Create a complete Git repository containing all required source files, configuration, resources, tests and documentation.
+
+If GitHub integration is available, use it to commit and push the actual project. Otherwise, provide the complete source project in an exportable form and explain how to push it to GitHub.
+
+## 21. GITHUB ACTIONS APK BUILD
+
+Create a workflow such as:
+
+`.github/workflows/android-build.yml`
+
+The workflow must:
+
+1. Check out the repository.
+2. Set up a compatible JDK.
+3. Set up the Android SDK as required by the runner.
+4. Configure Gradle caching where appropriate.
+5. Validate the Gradle wrapper.
+6. Run unit tests.
+7. Run Android lint checks.
+8. Build the actual debug APK.
+9. Verify that the APK exists and is non-empty.
+10. Verify that the APK is a valid Android package.
+11. Publish the APK as a GitHub Actions artifact.
+12. Preserve build logs when a step fails.
+
+Expected artifact location:
+
+`app/build/outputs/apk/debug/app-debug.apk`
+
+Also provide a convenient copied artifact at:
+
+`APK_DOWNLOAD/app-debug.apk`
+
+Do not create an empty file or rename a text document to `.apk`.
+
+Do not claim an APK is installable unless it is a valid APK produced from the actual project.
+
+A release-signed APK may be configured separately using GitHub Secrets. Never commit keystores, signing passwords, API credentials or private keys.
+
+## 22. PROJECT DOCUMENTATION
+
+Create a complete README containing:
+
+- Project overview
+- Feature list
+- Architecture
+- Android Studio setup
+- Local build instructions
+- GitHub repository setup
+- GitHub Actions workflow
+- APK artifact download instructions
+- Supported Android versions
+- Permissions and privacy explanation
+- Known hardware limitations
+- Testing instructions
+- Troubleshooting
+- Release signing guidance
+- Developer attribution
+
+Document every important API restriction that affects the accuracy of diagnostic results.
+
+## 23. ACCEPTANCE CRITERIA
+
+The project is complete only when:
+
+- The native Android project structure is present.
+- The application compiles successfully.
+- All critical automated tests pass.
+- The primary navigation works.
+- Hardware and sensor information comes from actual APIs.
+- ChargeLab records and persists genuine charging observations.
+- Unsupported values are handled honestly.
+- Network tests use real, reachable endpoints.
+- Storage analysis respects Android permissions.
+- Thermal and performance results are accurately labeled.
+- Reports contain real recorded data.
+- No major screen relies on fake metrics or nonfunctional placeholder buttons.
+- GitHub Actions builds the actual APK.
+- The APK artifact is verified and downloadable from the successful workflow.
+- The README explains how to build, test and install the application.
+
+If any requirement cannot be implemented or verified, document it explicitly and deliver the working subset rather than pretending it is complete.
+
+## 24. EXECUTION INSTRUCTIONS
+
+Begin implementation immediately.
+
+First inspect the available project environment and determine whether it supports native Android project generation and build execution.
+
+Then:
+
+1. Establish the Android project structure.
+2. Configure Gradle and dependencies.
+3. Implement the design system and navigation.
+4. Build the shared diagnostic engine.
+5. Implement Device Intelligence modules.
+6. Implement Wafa ChargeLab.
+7. Add persistent storage and reports.
+8. Implement permissions and background behavior.
+9. Add tests and documentation.
+10. Configure GitHub Actions.
+11. Run all available checks.
+12. Fix discovered errors.
+13. Build and verify the real APK using the available Android build environment or GitHub Actions.
+14. Report the exact completion status and any remaining limitations.
+
+Do not stop after creating a plan, wireframe, landing page or empty source-code skeleton.
+
+Prioritize correct measurements, functional implementation, reliable builds, privacy and maintainability over decorative features.
+
+**Final deliverable:** A complete, maintainable native Android application named Wafa Device Intelligence, integrating Wafa ChargeLab, with genuine diagnostic functionality, full source code, tests, documentation and a reproducible APK build workflow.
+
+**Developer attribution:** Mehedi364 | Wafa Zone
+
+**Product principle:** Real device data. Honest diagnostics. No fabricated results.
