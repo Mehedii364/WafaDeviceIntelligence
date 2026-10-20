@@ -108,7 +108,7 @@ fun StorageScreen(
             horizontalArrangement = Arrangement.SpaceBetween
           ) {
             Text(
-              text = "Used: %.1f GB ($usedPct%)".format(usedGb),
+              text = "Used: ${"%.1f".format(usedGb)} GB ($usedPct%)",
               style = MaterialTheme.typography.bodyMedium,
               color = colors.accentGold
             )

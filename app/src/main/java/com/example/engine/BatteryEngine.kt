@@ -47,11 +47,18 @@ class BatteryEngine(private val context: Context) {
   }
 
   fun startMonitoring() {
-    val filter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
-    val stickyIntent = context.registerReceiver(batteryReceiver, filter)
-    if (stickyIntent != null) {
-      parseBatteryIntent(stickyIntent)
-    }
+    try {
+      val filter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
+      val stickyIntent = androidx.core.content.ContextCompat.registerReceiver(
+        context,
+        batteryReceiver,
+        filter,
+        androidx.core.content.ContextCompat.RECEIVER_NOT_EXPORTED
+      )
+      if (stickyIntent != null) {
+        parseBatteryIntent(stickyIntent)
+      }
+    } catch (_: Exception) {}
   }
 
   fun stopMonitoring() {

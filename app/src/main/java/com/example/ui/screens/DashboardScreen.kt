@@ -177,8 +177,8 @@ fun DashboardScreen(
 
         WafaMetricCard(
           title = "Internal Storage",
-          value = "%.1f GB Free".format(availStorageGb),
-          subvalue = "$storagePct% used of %.1f GB".format(totalStorageGb),
+          value = "${"%.1f".format(availStorageGb)} GB Free",
+          subvalue = "$storagePct% used of ${"%.1f".format(totalStorageGb)} GB",
           icon = WafaIcons.Storage,
           accentColor = colors.statusWarning,
           onClick = { onNavigate(WafaScreen.STORAGE) },

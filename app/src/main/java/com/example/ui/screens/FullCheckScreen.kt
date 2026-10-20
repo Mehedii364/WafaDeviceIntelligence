@@ -203,7 +203,7 @@ fun FullCheckScreen(
                       category = "Memory",
                       status = if (!hw.isLowRamDevice && availRamGb > 0.5) DiagnosticStatus.PASSED else DiagnosticStatus.WARNING,
                       measurementSource = "ActivityManager.MemoryInfo",
-                      summary = "Available: %.2f GB (Low RAM flag: ${hw.isLowRamDevice})".format(availRamGb)
+                      summary = "Available: ${"%.2f".format(availRamGb)} GB (Low RAM flag: ${hw.isLowRamDevice})"
                     )
                   )
                   progress = 0.45f
@@ -220,7 +220,7 @@ fun FullCheckScreen(
                       category = "Storage",
                       status = if (freeGb > 1.0) DiagnosticStatus.PASSED else DiagnosticStatus.WARNING,
                       measurementSource = "StatFs",
-                      summary = "%.2f GB free out of %.2f GB total partition".format(freeGb, st.internalTotalBytes / 1_073_741_824.0)
+                      summary = "${"%.2f".format(freeGb)} GB free out of ${"%.2f".format(st.internalTotalBytes / 1_073_741_824.0)} GB total partition"
                     )
                   )
                   progress = 0.60f

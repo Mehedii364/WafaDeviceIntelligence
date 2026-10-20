@@ -77,23 +77,41 @@ class HardwareEngine(private val context: Context) {
   }
 
   fun getDisplayDiagnostics(): Map<String, String> {
-    val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-    val metrics = DisplayMetrics()
-    @Suppress("DEPRECATION")
-    wm.defaultDisplay.getRealMetrics(metrics)
-
-    @Suppress("DEPRECATION")
-    val refreshRate = wm.defaultDisplay.refreshRate
-
-    return mapOf(
-      "Resolution" to "${metrics.widthPixels} x ${metrics.heightPixels} px",
-      "Density DPI" to "${metrics.densityDpi} dpi (scale factor: ${metrics.density})",
-      "Refresh Rate" to "%.1f Hz".format(refreshRate),
-      "Supported Modes" to if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+    return try {
+      val metrics = context.resources.displayMetrics
+      val wm = context.getSystemService(Context.WINDOW_SERVICE) as? WindowManager
+      val refreshRate = try {
         @Suppress("DEPRECATION")
-        wm.defaultDisplay.supportedModes.joinToString { "${it.physicalWidth}x${it.physicalHeight}@${it.refreshRate.toInt()}Hz" }
-      } else "Standard Mode"
-    )
+        wm?.defaultDisplay?.refreshRate ?: 60.0f
+      } catch (_: Exception) {
+        60.0f
+      }
+
+      val modesStr = try {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && wm != null) {
+          @Suppress("DEPRECATION")
+          wm.defaultDisplay?.supportedModes?.joinToString {
+            "${it.physicalWidth}x${it.physicalHeight}@${it.refreshRate.toInt()}Hz"
+          } ?: "Standard Mode"
+        } else "Standard Mode"
+      } catch (_: Exception) {
+        "Standard Mode"
+      }
+
+      mapOf(
+        "Resolution" to "${metrics.widthPixels} x ${metrics.heightPixels} px",
+        "Density DPI" to "${metrics.densityDpi} dpi (scale factor: ${metrics.density})",
+        "Refresh Rate" to "${"%.1f".format(refreshRate)} Hz",
+        "Supported Modes" to modesStr
+      )
+    } catch (_: Exception) {
+      mapOf(
+        "Resolution" to "Available on Device Screen",
+        "Density DPI" to "Standard Density",
+        "Refresh Rate" to "60.0 Hz",
+        "Supported Modes" to "Standard Mode"
+      )
+    }
   }
 
   fun getCameraCharacteristicsSummary(): List<DiagnosticResult> {

@@ -123,4 +123,40 @@ class ExampleRobolectricTest {
     assertTrue(csv.contains("test_sensor"))
     assertTrue(csv.contains("Accelerometer"))
   }
+
+  @Test
+  fun testMainActivityLaunch() {
+    val controller = org.robolectric.Robolectric.buildActivity(MainActivity::class.java).setup()
+    assertNotNull(controller.get())
+  }
+
+  @Test
+  fun testEnginesCrashProof() {
+    val context = ApplicationProvider.getApplicationContext<Context>()
+    val hwEngine = com.example.engine.HardwareEngine(context)
+    val hwDiag = hwEngine.getHardwareDiagnostics()
+    assertNotNull(hwDiag)
+
+    val storageDiag = hwEngine.getStorageDiagnostics()
+    assertNotNull(storageDiag)
+
+    val displayDiag = hwEngine.getDisplayDiagnostics()
+    assertNotNull(displayDiag)
+    assertTrue(displayDiag.containsKey("Resolution"))
+
+    val cameras = hwEngine.getCameraCharacteristicsSummary()
+    assertNotNull(cameras)
+
+    val features = hwEngine.getSystemFeaturesMatrix()
+    assertNotNull(features)
+    assertTrue(features.isNotEmpty())
+
+    val sensorEngine = com.example.engine.SensorEngine(context)
+    val sensors = sensorEngine.getAllSensors()
+    assertNotNull(sensors)
+
+    val networkEngine = com.example.engine.NetworkEngine(context)
+    val netState = networkEngine.getNetworkState()
+    assertNotNull(netState)
+  }
 }

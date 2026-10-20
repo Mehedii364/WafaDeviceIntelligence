@@ -22,7 +22,8 @@ class ThermalEngine(private val context: Context) {
       }
       thermalListener = listener
       try {
-        powerManager.addThermalStatusListener(context.mainExecutor, listener)
+        val executor = androidx.core.content.ContextCompat.getMainExecutor(context)
+        powerManager.addThermalStatusListener(executor, listener)
       } catch (_: Exception) {}
     }
   }

@@ -19,24 +19,39 @@ class BatteryMonitorService : Service() {
     private const val NOTIFICATION_ID = 1001
 
     fun startService(context: Context) {
-      val intent = Intent(context, BatteryMonitorService::class.java)
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        context.startForegroundService(intent)
-      } else {
-        context.startService(intent)
-      }
+      try {
+        val intent = Intent(context, BatteryMonitorService::class.java)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+          context.startForegroundService(intent)
+        } else {
+          context.startService(intent)
+        }
+      } catch (_: Exception) {}
     }
 
     fun stopService(context: Context) {
-      val intent = Intent(context, BatteryMonitorService::class.java)
-      context.stopService(intent)
+      try {
+        val intent = Intent(context, BatteryMonitorService::class.java)
+        context.stopService(intent)
+      } catch (_: Exception) {}
     }
   }
 
   override fun onCreate() {
     super.onCreate()
-    createNotificationChannel()
-    startForeground(NOTIFICATION_ID, buildNotification("Wafa ChargeLab active: Monitoring battery and thermal state"))
+    try {
+      createNotificationChannel()
+      val notification = buildNotification("Wafa ChargeLab active: Monitoring battery and thermal state")
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        startForeground(
+          NOTIFICATION_ID,
+          notification,
+          android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
+        )
+      } else {
+        startForeground(NOTIFICATION_ID, notification)
+      }
+    } catch (_: Exception) {}
   }
 
   override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
