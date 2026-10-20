@@ -16,13 +16,19 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
+/**
+ * Diagnostic laboratory theme modes for Wafa Device Intelligence.
+ */
 enum class WafaThemeMode(val displayName: String, val description: String) {
-  OBSIDIAN_AURORA("Obsidian Aurora", "Deep obsidian with champagne gold & electric blue (Default)"),
+  OBSIDIAN_AURORA("Obsidian Aurora", "Adaptive obsidian with champagne gold & electric blue (Dark & Light)"),
   GRAPHITE_PRO("Graphite Pro", "Technical laboratory appearance with neutral silver & cool blue"),
   LIGHT_TITANIUM("Light Titanium", "Soft titanium white with high contrast dark graphite"),
   MIDNIGHT_VIOLET("Midnight Violet", "Deep navy-black with restrained electric violet accents")
 }
 
+/**
+ * Extended semantic diagnostic tokens not covered by standard Material 3 color schemes.
+ */
 @Immutable
 data class WafaExtendedColors(
   val elevatedSurface: Color,
@@ -48,8 +54,15 @@ val LocalWafaColors = staticCompositionLocalOf {
   )
 }
 
-// 1. Obsidian Aurora Color Schemes
-val ObsidianAuroraColorScheme = darkColorScheme(
+// =========================================================================
+// 1. Obsidian Aurora Color Schemes (Material 3)
+// =========================================================================
+
+/**
+ * Obsidian Aurora Dark Mode: Deep obsidian black base with champagne gold highlights
+ * and electric blue active telemetry indicators.
+ */
+val ObsidianAuroraDarkColorScheme = darkColorScheme(
   primary = ChampagneGold,
   onPrimary = ObsidianBackground,
   primaryContainer = ObsidianElevated,
@@ -59,6 +72,7 @@ val ObsidianAuroraColorScheme = darkColorScheme(
   secondaryContainer = ObsidianElevated,
   onSecondaryContainer = ElectricBlue,
   tertiary = StatusSuccess,
+  onTertiary = ObsidianBackground,
   background = ObsidianBackground,
   onBackground = TextPrimaryDark,
   surface = ObsidianSurface,
@@ -66,11 +80,45 @@ val ObsidianAuroraColorScheme = darkColorScheme(
   surfaceVariant = ObsidianElevated,
   onSurfaceVariant = TextSecondaryDark,
   outline = ObsidianCardBorder,
+  outlineVariant = ObsidianCardBorder.copy(alpha = 0.5f),
   error = StatusError,
-  onError = ObsidianBackground
+  onError = ObsidianBackground,
+  errorContainer = StatusError.copy(alpha = 0.15f),
+  onErrorContainer = StatusError
 )
 
-// 2. Graphite Pro Color Scheme
+/**
+ * Obsidian Aurora Light Mode: Clean off-white aurora surface with deep obsidian typography,
+ * deep gold accents, and sharp electric blue interactive states.
+ */
+val ObsidianAuroraLightColorScheme = lightColorScheme(
+  primary = AuroraLightGold,
+  onPrimary = Color.White,
+  primaryContainer = AuroraLightElevated,
+  onPrimaryContainer = AuroraLightGoldVariant,
+  secondary = AuroraLightBlue,
+  onSecondary = Color.White,
+  secondaryContainer = AuroraLightElevated,
+  onSecondaryContainer = AuroraLightBlue,
+  tertiary = AuroraLightSuccess,
+  onTertiary = Color.White,
+  background = AuroraLightBackground,
+  onBackground = AuroraLightTextPrimary,
+  surface = AuroraLightSurface,
+  onSurface = AuroraLightTextPrimary,
+  surfaceVariant = AuroraLightElevated,
+  onSurfaceVariant = AuroraLightTextSecondary,
+  outline = AuroraLightCardBorder,
+  outlineVariant = AuroraLightCardBorder.copy(alpha = 0.5f),
+  error = AuroraLightError,
+  onError = Color.White,
+  errorContainer = AuroraLightError.copy(alpha = 0.12f),
+  onErrorContainer = AuroraLightError
+)
+
+// =========================================================================
+// 2. Graphite Pro Theme (Dark Laboratory)
+// =========================================================================
 val GraphiteProColorScheme = darkColorScheme(
   primary = CoolBlue,
   onPrimary = GraphiteBackground,
@@ -92,7 +140,9 @@ val GraphiteProColorScheme = darkColorScheme(
   onError = GraphiteBackground
 )
 
-// 3. Light Titanium Color Scheme
+// =========================================================================
+// 3. Light Titanium Theme (Light Technical)
+// =========================================================================
 val LightTitaniumColorScheme = lightColorScheme(
   primary = ChampagneGoldVariant,
   onPrimary = Color.White,
@@ -114,7 +164,9 @@ val LightTitaniumColorScheme = lightColorScheme(
   onError = Color.White
 )
 
-// 4. Midnight Violet Color Scheme
+// =========================================================================
+// 4. Midnight Violet Theme (Deep Navy/Violet Dark)
+// =========================================================================
 val MidnightVioletColorScheme = darkColorScheme(
   primary = MidnightViolet,
   onPrimary = MidnightBackground,
@@ -136,27 +188,53 @@ val MidnightVioletColorScheme = darkColorScheme(
   onError = MidnightBackground
 )
 
+/**
+ * Main application theme wrapper supporting the Obsidian Aurora design system
+ * along with dark and light mode adaptation.
+ *
+ * @param themeMode The selected diagnostic theme palette.
+ * @param darkTheme Whether to render in dark mode (defaults to system setting).
+ * @param content Composable application content.
+ */
 @Composable
 fun MyApplicationTheme(
   themeMode: WafaThemeMode = WafaThemeMode.OBSIDIAN_AURORA,
+  darkTheme: Boolean = isSystemInDarkTheme(),
   content: @Composable () -> Unit
 ) {
   val colorScheme: ColorScheme
   val extendedColors: WafaExtendedColors
+  val isDarkSurface: Boolean
 
   when (themeMode) {
     WafaThemeMode.OBSIDIAN_AURORA -> {
-      colorScheme = ObsidianAuroraColorScheme
-      extendedColors = WafaExtendedColors(
-        elevatedSurface = ObsidianElevated,
-        cardBorder = ObsidianCardBorder,
-        accentGold = ChampagneGold,
-        accentBlue = ElectricBlue,
-        statusSuccess = StatusSuccess,
-        statusWarning = StatusWarning,
-        statusError = StatusError,
-        textMuted = TextMutedDark
-      )
+      if (darkTheme) {
+        colorScheme = ObsidianAuroraDarkColorScheme
+        extendedColors = WafaExtendedColors(
+          elevatedSurface = ObsidianElevated,
+          cardBorder = ObsidianCardBorder,
+          accentGold = ChampagneGold,
+          accentBlue = ElectricBlue,
+          statusSuccess = StatusSuccess,
+          statusWarning = StatusWarning,
+          statusError = StatusError,
+          textMuted = TextMutedDark
+        )
+        isDarkSurface = true
+      } else {
+        colorScheme = ObsidianAuroraLightColorScheme
+        extendedColors = WafaExtendedColors(
+          elevatedSurface = AuroraLightElevated,
+          cardBorder = AuroraLightCardBorder,
+          accentGold = AuroraLightGold,
+          accentBlue = AuroraLightBlue,
+          statusSuccess = AuroraLightSuccess,
+          statusWarning = AuroraLightWarning,
+          statusError = AuroraLightError,
+          textMuted = AuroraLightTextMuted
+        )
+        isDarkSurface = false
+      }
     }
     WafaThemeMode.GRAPHITE_PRO -> {
       colorScheme = GraphiteProColorScheme
@@ -170,6 +248,7 @@ fun MyApplicationTheme(
         statusError = StatusError,
         textMuted = TextMutedDark
       )
+      isDarkSurface = true
     }
     WafaThemeMode.LIGHT_TITANIUM -> {
       colorScheme = LightTitaniumColorScheme
@@ -183,6 +262,7 @@ fun MyApplicationTheme(
         statusError = StatusError,
         textMuted = TitaniumTextSecondary
       )
+      isDarkSurface = false
     }
     WafaThemeMode.MIDNIGHT_VIOLET -> {
       colorScheme = MidnightVioletColorScheme
@@ -196,18 +276,21 @@ fun MyApplicationTheme(
         statusError = StatusError,
         textMuted = TextMutedDark
       )
+      isDarkSurface = true
     }
   }
 
   val view = LocalView.current
   if (!view.isInEditMode) {
     SideEffect {
-      val window = (view.context as Activity).window
-      window.statusBarColor = colorScheme.background.toArgb()
-      window.navigationBarColor = colorScheme.background.toArgb()
-      val isLight = themeMode == WafaThemeMode.LIGHT_TITANIUM
-      WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = isLight
-      WindowCompat.getInsetsController(window, view).isAppearanceLightNavigationBars = isLight
+      val window = (view.context as? Activity)?.window
+      if (window != null) {
+        window.statusBarColor = colorScheme.background.toArgb()
+        window.navigationBarColor = colorScheme.background.toArgb()
+        val controller = WindowCompat.getInsetsController(window, view)
+        controller.isAppearanceLightStatusBars = !isDarkSurface
+        controller.isAppearanceLightNavigationBars = !isDarkSurface
+      }
     }
   }
 
